@@ -1,6 +1,6 @@
 import { AppPage } from './app.po';
 
-describe('ngx-select App', () => {
+describe('ngx-selego App', () => {
   let page: AppPage;
 
   beforeEach(() => {
