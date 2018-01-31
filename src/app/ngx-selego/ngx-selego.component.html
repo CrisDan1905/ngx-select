@@ -1,3 +1,5 @@
-<p>
-  ngx-select works!
-</p>
+<!-- <input type="text" > -->
+<select name="" id="" [value]="value" (input)="valueChanged($event)">
+  <option *ngFor="let register of data" [value]="register.id">{{ register.label }}</option>
+
+</select>

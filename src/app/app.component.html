@@ -1,2 +1,5 @@
-<ngx-selego></ngx-selego>
+<form [formGroup]="form" (ngSubmit)="test()">
+  <ngx-selego formControlName="test" (ngModelChange)="test($event)"></ngx-selego>
+  <button type="submit">Enviar</button>
+</form>
 

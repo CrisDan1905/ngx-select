@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
+import { NgxSelego } from '../interfaces/ngx-selego.interface';
 
 @Component({
   selector: 'ngx-selego',
@@ -14,8 +15,11 @@ import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 
 export class NgxSelegoComponent implements OnInit, ControlValueAccessor {
 
+  @Input() data: NgxSelego[] = [{id: '2', label: 'prueba'}, { id: '1', label: 'prueba 1'}];
+
   private value: any;
   private onChange: Function;
+
 
   constructor() { }
 
@@ -23,14 +27,18 @@ export class NgxSelegoComponent implements OnInit, ControlValueAccessor {
 
   }
 
+
   writeValue(value: any) {
     this.value = value;
-    console.log(value);
   }
 
   registerOnChange(fn) { this.onChange = fn; }
 
   registerOnTouched(fn) { }
+
+  private valueChanged(event: any) {
+    this.onChange(event.target.value);
+  }
 
 }
 

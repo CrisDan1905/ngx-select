@@ -1,20 +1,22 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { NgxSelectComponent } from './ngx-selego.component';
+import { NgxSelegoComponent } from './ngx-selego.component';
+import { FormsModule } from '@angular/forms';
 
 describe('NgxSelectComponent', () => {
-  let component: NgxSelectComponent;
-  let fixture: ComponentFixture<NgxSelectComponent>;
+  let component: NgxSelegoComponent;
+  let fixture: ComponentFixture<NgxSelegoComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ NgxSelectComponent ]
+      declarations: [ NgxSelegoComponent ],
+      imports: [FormsModule]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(NgxSelectComponent);
+    fixture = TestBed.createComponent(NgxSelegoComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
