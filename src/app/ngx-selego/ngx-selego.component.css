@@ -1,0 +1,12 @@
+.selego {
+    width: 100px;
+}
+.selego__search {
+    height: 20px;
+    width: 100px;
+    border: 1px solid gray;
+}
+.selego__contentList {
+    max-height: 100px;
+    overflow: scroll;
+}
