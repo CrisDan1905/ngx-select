@@ -1,5 +1,12 @@
 <!-- <input type="text" > -->
-<select name="" id="" [value]="value" (input)="valueChanged($event)">
+<!-- <select name="" id="" [value]="value" (input)="valueChanged($event)">
   <option *ngFor="let register of data" [value]="register.id">{{ register.label }}</option>
 
-</select>
+</select> -->
+
+<div class="selego">
+  <div class="selego__search" contenteditable="true" (input)="searchItem($event)"></div>
+  <div class="selego__contentList">
+      <div class="selego__list" *ngFor="let register of copyData">{{ register.label }}</div>
+  </div>
+</div>
