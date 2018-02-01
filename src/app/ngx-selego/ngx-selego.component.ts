@@ -15,22 +15,23 @@ import { NgxSelego } from '../interfaces/ngx-selego.interface';
 
 export class NgxSelegoComponent implements OnInit, ControlValueAccessor {
 
-  @Input() data: NgxSelego[] = [{id: '2', label: 'Elkin Bernal'}, 
+  @Input() data: NgxSelego[] = [ 
   { id: '1', label: 'Jorge Verbel'}, 
-  { id: '1', label: 'Alejandra Rojas'}, 
-  { id: '1', label: 'Abrahan Uribe Ruz'}, 
-  { id: '1', label: 'Danilo Gutierrez'}, 
-  { id: '1', label: 'Juan Cardona'}, 
-  { id: '1', label: 'Henry Cano'}, 
-  { id: '1', label: 'Nelson Usuga'}, 
-  { id: '1', label: 'Jimmy Romero'}, 
-  { id: '1', label: 'Enrique Mejía'}, 
-  { id: '1', label: 'Eliana Londoño'}, 
-  { id: '1', label: 'Jorge Cuellar'}, 
-  { id: '1', label: 'Paola Cuellar'}, 
-  { id: '1', label: 'Fabio Cano'}, 
-  { id: '1', label: 'Julian Lopera'}, 
-  { id: '1', label: 'Dorian Gomez'}];
+  { id: '2', label: 'Alejandra Rojas'}, 
+  { id: '3', label: 'Abrahan Uribe Ruz'}, 
+  { id: '4', label: 'Danilo Gutierrez'}, 
+  { id: '5', label: 'Juan Cardona'}, 
+  { id: '6', label: 'Henry Cano'}, 
+  { id: '7', label: 'Nelson Usuga'}, 
+  { id: '8', label: 'Jimmy Romero'}, 
+  { id: '9', label: 'Enrique Mejía'}, 
+  { id: '10', label: 'Eliana Londoño'}, 
+  { id: '11', label: 'Jorge Cuellar'}, 
+  { id: '12', label: 'Paola Cuellar'}, 
+  { id: '13', label: 'Fabio Cano'}, 
+  { id: '14', label: 'Julian Lopera'}, 
+  { id: '15', label: 'Dorian Gomez'},
+  { id: '2', label: 'Elkin Bernal'}];
 
   private value: any;
   private onChange: Function;
@@ -43,7 +44,6 @@ export class NgxSelegoComponent implements OnInit, ControlValueAccessor {
     let copy = this.data.slice()
   }
 
-
   searchItem (e) {
     let value = e.target.innerText;
     if(value)
@@ -52,8 +52,9 @@ export class NgxSelegoComponent implements OnInit, ControlValueAccessor {
       this.copyData.length = 0;
   }
 
-  selectItem (item){
-
+  selectItem ($event, register){
+    this.valueChanged(register);
+    this.setValueSearch(register)
   }
 
   hideList () {
@@ -73,8 +74,8 @@ export class NgxSelegoComponent implements OnInit, ControlValueAccessor {
 
   registerOnTouched(fn) { }
 
-  private valueChanged(event: any) {
-    this.onChange(event.target.value);
+  private valueChanged(value: any) {
+    this.onChange(value.id);
   }
 
 }
