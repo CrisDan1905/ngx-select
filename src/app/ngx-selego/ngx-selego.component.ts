@@ -35,6 +35,7 @@ export class NgxSelegoComponent implements OnInit, ControlValueAccessor {
   private value: any;
   private onChange: Function;
   private copyData: Array<Object> = [];
+  private searchSelect: string = "";
 
   constructor() { }
 
@@ -55,8 +56,8 @@ export class NgxSelegoComponent implements OnInit, ControlValueAccessor {
 
   }
 
-  setValueSearch (value) {
-    
+  setValueSearch (obj) {
+    this.searchSelect = obj.label;
   }
 
   writeValue(value: any) {

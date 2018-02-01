@@ -5,8 +5,8 @@
 </select> -->
 
 <div class="selego">
-  <div class="selego__search" contenteditable="true" (input)="searchItem($event)"></div>
+  <div class="selego__search" contenteditable="true" [innerHTML]="searchSelect" (input)="searchItem($event)"></div>
   <div class="selego__contentList">
-      <div class="selego__list" *ngFor="let register of copyData">{{ register.label }}</div>
+      <div class="selego__list" *ngFor="let register of copyData" (click)="setValueSearch(register)">{{ register.label }}</div>
   </div>
 </div>
