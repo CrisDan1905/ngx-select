@@ -1,12 +1,73 @@
+[contenteditable=true]:empty::before {
+    content: attr(placeholder);
+    display: block;
+}
 .selego {
-    width: 100px;
+    width: 100%;
+    position: relative;
+    color: #777;
 }
 .selego__search {
-    height: 20px;
-    width: 100px;
-    border: 1px solid gray;
+    width: 100%;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.selego__searchBox {
+    width: 100%;
+    outline: 0 none;
+    padding: 5px;
+}
+.selego__searchToggle {
+    height: 100%;
+    width: 20px;
+    position: relative;
+    cursor: pointer;
+}
+.selego__searchToggle::before {
+    content: '';
+    background: rgb(199, 199, 199);
+    height: 15px;
+    width: 3px;
+    border-radius: 10px;
+    transform-origin: bottom center;
+    position: absolute;
+    transform: rotate(40deg);
+    bottom: 40%;
+}
+.selego__searchToggle::after {
+    content: '';
+    background: rgb(199, 199, 199);
+    height: 15px;
+    width: 3px;
+    border-radius: 10px;
+    transform-origin: bottom center;
+    position: absolute;
+    left: 2px;
+    transform: rotate(-40deg);
+    bottom: 40%;
 }
 .selego__contentList {
-    max-height: 100px;
+    max-height: 150px;
+    width: 100%;
     overflow: scroll;
+    position: absolute;
+    border: 1px solid transparent;
+}
+.selego__list {
+    padding: 10px;
+    background: #F5F5F5;
+    border-bottom: .5px solid #E0E0E0;
+    display: flex;
+    align-items: center;
+}
+
+.selego__icon img{
+    width: 30px;
+    margin: 5px;
+}
+
+.toggle {
+    height: fit-content;
 }
