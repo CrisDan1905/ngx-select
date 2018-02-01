@@ -56,8 +56,13 @@ export class NgxSelegoComponent implements OnInit, ControlValueAccessor {
 
   }
 
+  hideList () {
+    this.copyData.length = 0;
+  }
+
   setValueSearch (obj) {
     this.searchSelect = obj.label;
+    this.hideList();
   }
 
   writeValue(value: any) {
