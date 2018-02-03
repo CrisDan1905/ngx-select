@@ -6,14 +6,24 @@
 
 <div class="selego">
   <div class="selego__search">
-    <div *ngIf="searchSelect.icon" class="selego__icon"><img [src]="searchSelect.icon" alt=""></div>
-    <div class="selego__searchBox" placeholder="Seleccionar" contenteditable="true" [innerHTML]="searchSelect.label" (input)="searchItem($event)"></div>
+    <div *ngIf="!selectMult && searchSelect.icon" class="selego__icon">
+      <img [src]="searchSelect.icon" alt="">
+    </div>
+    <div *ngIf="!selectMult" class="selego__searchBox" placeholder="Seleccionar" [attr.contenteditable]="selectMult ? false : true" [innerHTML]="searchSelect.label" (input)="searchItem($event)"></div>
+    <div *ngIf="selectMult" class="selego__boxItemSelect">
+      <div *ngFor="let itemSelect of itemsSelects">{{ itemSelect.label }}&nbsp;</div>
+    </div>
     <div class="selego__searchToggle" (click)="toggle()"></div>
   </div>
   <div class="selego__contentList">
-      <div class="selego__list" *ngFor="let register of copyData" (click)="selectItem($event, register)">
-        <div *ngIf="register.icon" class="selego__icon"><img [src]="register.icon" alt=""></div>
-        <div>{{ register.label }}</div>
+    <div class="selego__list" *ngFor="let register of copyData; let i = index" (click)="selectItem($event, register)">
+      <div *ngIf="selectMult">
+        <input type="checkbox" (click)="checkedItem($event, register);">
       </div>
+      <div *ngIf="register.icon" class="selego__icon">
+        <img [src]="register.icon" alt="">
+      </div>
+      <div>{{ register.label }}</div>
+    </div>
   </div>
 </div>

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, AfterViewInit, Renderer2 } from '@angular/core';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 import { NgxSelego } from '../interfaces/ngx-selego.interface';
 
@@ -13,7 +13,7 @@ import { NgxSelego } from '../interfaces/ngx-selego.interface';
   }]
 })
 
-export class NgxSelegoComponent implements OnInit, ControlValueAccessor {
+export class NgxSelegoComponent implements OnInit, AfterViewInit, ControlValueAccessor {
 
   @Input() data: NgxSelego[] = [ 
   { id: '1', label: 'Jorge Verbel'}, 
@@ -38,10 +38,32 @@ export class NgxSelegoComponent implements OnInit, ControlValueAccessor {
   private copyData: Array<Object> = [];
   private searchSelect: string = "";
 
-  constructor() { }
+  private search;
+  private copy;
+
+  private selectMult: boolean = false;
+  private itemsSelects: Set<Object> = new Set();
+
+  constructor(private renderer: Renderer2) { }
 
   ngOnInit() {
-    let copy = this.data.slice()
+    this.copy = this.data.map(e => Object.assign({}, e));
+  }
+
+  ngAfterViewInit() {
+    this.renderer.listen(document, 'keydown', (e: KeyboardEvent) => {
+      if(e.code === 'MetaLeft')
+        this.selectMult = true;      
+    });
+    this.renderer.listen(document, 'keyup', (e: KeyboardEvent) => {
+      console.log(this.itemsSelects);
+      if(e.code === 'MetaLeft' && !this.itemsSelects.has(this.searchSelect)){
+        this.selectMult = false;
+        this.itemsSelects.clear();
+      }else if(this.itemsSelects.size === 1 && this.itemsSelects.has(this.searchSelect)) {
+        this.selectMult = false;
+      }
+    });
   }
 
   searchItem (e) {
@@ -53,9 +75,32 @@ export class NgxSelegoComponent implements OnInit, ControlValueAccessor {
   }
 
   selectItem ($event, register){
-    this.valueChanged(register.id);
-    this.setValueSearch(register);
-    this.toggle();
+    if(!this.selectMult){
+      this.valueChanged(register.id);
+      this.setValueSearch(register);
+      this.itemsSelects.has(register) ? '' : this.itemsSelects.add(register);
+      this.toggle();
+    }
+  }
+
+  checkedItem($event: any, obj: NgxSelego) {
+    $event.stopPropagation();
+    this.itemsSelects = this.itemsSelects.add(obj);
+
+    if(!$event.target.checked) {
+      this.itemsSelects.forEach( (e: NgxSelego) => {
+        if(e.id === obj.id){
+          this.itemsSelects.delete(obj);
+        }
+      });
+    }
+
+    /* this.itemsSelects = Array.from(f); */
+
+    if(!this.itemsSelects.size) this.selectMult = false;
+
+    console.log(this.itemsSelects);
+    
   }
 
   setValueSearch (obj) {
