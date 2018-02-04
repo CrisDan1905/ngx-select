@@ -11,7 +11,7 @@
     </div>
     <div *ngIf="!selectMult" class="selego__searchBox" placeholder="Seleccionar" [attr.contenteditable]="selectMult ? false : true" [innerHTML]="searchSelect.label" (input)="searchItem($event)"></div>
     <div *ngIf="selectMult" class="selego__boxItemSelect">
-      <div *ngFor="let itemSelect of itemsSelects">{{ itemSelect.label }}&nbsp;</div>
+      <div *ngFor="let itemSelect of itemsSelects" class="selego__itemSelect"><span>{{ itemSelect.label }}</span><span class="selego__removeItem" (click)="removeItem($event, itemSelect)">x</span></div>
     </div>
     <div class="selego__searchToggle" (click)="toggle()"></div>
   </div>

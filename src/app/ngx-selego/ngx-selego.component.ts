@@ -96,17 +96,20 @@ export class NgxSelegoComponent implements OnInit, AfterViewInit, ControlValueAc
     
     obj.checked = !obj.checked;
     this.addItem(obj);
-
+    
     if(!obj.checked) {
       this.deletedItem(obj);
     }
-    
+
     if(!$event.metaKey && this.itemsSelects.size === 1) {
       this.selectMult = false;
-      this.searchSelect = this.itemsSelects.values().next().value;
     }
 
-    if(this.itemsSelects.size === 0) this.searchSelect.lenght = 0;
+    if(this.itemsSelects.size === 1){
+      this.searchSelect = this.itemsSelects.values().next().value;
+    }
+  
+    if(this.itemsSelects.size === 0) this.searchSelect = {};
     
   }
 
@@ -116,6 +119,28 @@ export class NgxSelegoComponent implements OnInit, AfterViewInit, ControlValueAc
       this.copyData = this.copyData.filter((e) => e.label.toLocaleLowerCase().includes(value.toLocaleLowerCase()));
     else
       this.assingData();
+  }
+
+  removeItem($event, obj: NgxSelego) {
+    $event.stopPropagation();
+
+    obj.checked = false;
+    this.itemsSelects.delete(obj);
+
+    if(!$event.metaKey && this.itemsSelects.size === 1) {
+      this.selectMult = false;
+    }
+
+    if(this.itemsSelects.size === 1){
+      this.searchSelect = this.itemsSelects.values().next().value;
+    }
+
+    console.log(this.itemsSelects.size);
+    
+    if(this.itemsSelects.size === 0) {
+      this.searchSelect = {};
+    }
+    
   }
 
   toggle() {
