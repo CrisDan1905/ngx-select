@@ -15,10 +15,10 @@
     </div>
     <div class="selego__searchToggle" (click)="toggle()"></div>
   </div>
-  <div class="selego__contentList">
+  <div class="selego__contentList" [ngClass]="{'toggle': toggleClass}">
     <div class="selego__list" *ngFor="let register of copyData; let i = index" (click)="selectItem($event, register)">
       <div *ngIf="selectMult">
-        <input type="checkbox" (click)="checkedItem($event, register);">
+        <input type="checkbox" [checked]="register.checked ? true : false" (click)="checkedItem($event, register);">
       </div>
       <div *ngIf="register.icon" class="selego__icon">
         <img [src]="register.icon" alt="">

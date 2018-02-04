@@ -54,7 +54,7 @@
     bottom: 40%;
 }
 .selego__contentList {
-    max-height: 150px;
+    max-height: 0px;
     width: 100%;
     overflow: scroll;
     position: absolute;
@@ -74,5 +74,5 @@
 }
 
 .toggle {
-    height: fit-content;
+    max-height: 200px;
 }
