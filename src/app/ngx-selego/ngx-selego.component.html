@@ -9,13 +9,13 @@
     <div *ngIf="!selectMult && searchSelect.icon" class="selego__icon">
       <img [src]="searchSelect.icon" alt="">
     </div>
-    <div *ngIf="!selectMult" class="selego__searchBox" placeholder="Seleccionar" [attr.contenteditable]="selectMult ? false : true" [innerHTML]="searchSelect.label" (input)="searchItem($event)"></div>
+    <div *ngIf="!selectMult" class="selego__searchBox" #selegoSearchBox placeholder="Seleccionar" [attr.contenteditable]="selectMult ? false : true" [innerHTML]="searchSelect.label" (input)="searchItem($event)"></div>
     <div *ngIf="selectMult" class="selego__boxItemSelect">
       <div *ngFor="let itemSelect of itemsSelects" class="selego__itemSelect"><span>{{ itemSelect.label }}</span><span class="selego__removeItem" (click)="removeItem($event, itemSelect)">x</span></div>
     </div>
     <div class="selego__searchToggle" (click)="toggle()"></div>
   </div>
-  <div class="selego__contentList" [ngClass]="{'toggle': toggleClass}">
+  <div class="selego__contentList" #selegoList [ngClass]="{'toggle': toggleClass}">
     <div class="selego__list" *ngFor="let register of copyData; let i = index" (click)="selectItem($event, register)">
       <div *ngIf="selectMult">
         <input type="checkbox" [checked]="register.checked ? true : false" (click)="checkedItem($event, register);">

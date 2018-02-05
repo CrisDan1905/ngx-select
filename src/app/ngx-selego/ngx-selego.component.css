@@ -18,6 +18,7 @@
     width: 100%;
     outline: 0 none;
     padding: 5px;
+    cursor: text;
 }
 .selego__boxItemSelect {
     display: flex;

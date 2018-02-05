@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, AfterViewInit, Renderer2 } from '@angular/core';
+import { Component, OnInit, Input, AfterViewInit, Renderer2, ViewChild } from '@angular/core';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 import { NgxSelego } from '../interfaces/ngx-selego.interface';
 
@@ -42,22 +42,42 @@ export class NgxSelegoComponent implements OnInit, AfterViewInit, ControlValueAc
   private selectMult: boolean = false;
   private itemsSelects: Set<Object> = new Set();
 
+  @ViewChild('selegoSearchBox') selegoSearchBox;
+  @ViewChild('selegoList') selegoList;
   constructor(private renderer: Renderer2) { }
 
   ngOnInit() {
-    this.assingData();
+    this.assignData();
   }
 
   ngAfterViewInit() {
+    const SELEGO_BOX = this.selegoSearchBox.nativeElement;
+
     this.renderer.listen(document, 'keydown', (e: KeyboardEvent) => {
-      if (e.metaKey) {
-        this.selectMult = true;
-      }
+      /** KeyCode === 27 es la tecla esc. Cierra la lista. */
+      if (e.keyCode === 27) this.toggleClass = false; 
+      if (e.metaKey && this.toggleClass) this.selectMult = true;
+
+      //this.navigateList(e);
+
     });
+    
     this.renderer.listen(document, 'keyup', (e: KeyboardEvent) => {
-      if (!e.metaKey && this.itemsSelects.size <= 1) {
-        this.selectMult = false;
-      }
+      if (!e.metaKey && this.itemsSelects.size <= 1) this.selectMult = false;
+    });
+
+    this.renderer.listen(SELEGO_BOX, 'focus', (e: KeyboardEvent) => {
+      /** FOCUS */
+    })
+  }
+
+  addItem(item: object | NgxSelego) {
+    this.itemsSelects.add(item);
+  }
+
+  deleteItem(item: NgxSelego) {
+    this.itemsSelects.forEach((e: NgxSelego) => {
+      if (e.id === item.id) this.itemsSelects.delete(item);
     });
   }
 
@@ -65,12 +85,12 @@ export class NgxSelegoComponent implements OnInit, AfterViewInit, ControlValueAc
     if (!this.selectMult) {
       // this.valueChanged(register.id);
       this.toggle();
-    } 
+    }
 
     /** Se reestrablece el objeto anteriormente seleccionado */
-    if(Object.keys(this.searchSelect).length){
+    if (Object.keys(this.searchSelect).length) {
       this.searchSelect.checked = !this.searchSelect.checked;
-      this.deletedItem(this.searchSelect);
+      this.deleteItem(this.searchSelect);
     }
 
     obj.checked = !obj.checked;
@@ -79,75 +99,75 @@ export class NgxSelegoComponent implements OnInit, AfterViewInit, ControlValueAc
     this.searchSelect = obj;
   }
 
-  addItem(item: object | NgxSelego) {
-    this.itemsSelects.add(item);
-  }
-
-  deletedItem(item: NgxSelego) {
-    this.itemsSelects.forEach((e: NgxSelego) => {
-      if (e.id === item.id) {
-        this.itemsSelects.delete(item);
-      }
-    });
-  }
-
-  checkedItem($event: any, obj: NgxSelego) {
-    $event.stopPropagation();
-    
-    obj.checked = !obj.checked;
-    this.addItem(obj);
-    
-    if(!obj.checked) {
-      this.deletedItem(obj);
-    }
-
-    if(!$event.metaKey && this.itemsSelects.size === 1) {
-      this.selectMult = false;
-    }
-
-    if(this.itemsSelects.size === 1){
-      this.searchSelect = this.itemsSelects.values().next().value;
-    }
-  
-    if(this.itemsSelects.size === 0) this.searchSelect = {};
-    
-  }
-
-  searchItem(e) {
-    let value = e.target.innerText;
-    if (value)
-      this.copyData = this.copyData.filter((e) => e.label.toLocaleLowerCase().includes(value.toLocaleLowerCase()));
-    else
-      this.assingData();
-  }
-
   removeItem($event, obj: NgxSelego) {
     $event.stopPropagation();
 
     obj.checked = false;
     this.itemsSelects.delete(obj);
 
-    if(!$event.metaKey && this.itemsSelects.size === 1) {
-      this.selectMult = false;
+    if (!$event.metaKey && this.itemsSelects.size === 1) this.selectMult = false;
+
+    this.assignLastValue();
+    this.resetSearchSelect();
+
+  }
+
+  checkedItem($event: any, obj: NgxSelego) {
+    $event.stopPropagation();
+
+    obj.checked = !obj.checked;
+    this.addItem(obj);
+
+    if (!obj.checked) this.deleteItem(obj);
+    if (!$event.metaKey && this.itemsSelects.size === 1) this.selectMult = false;
+
+    this.assignLastValue();
+    this.resetSearchSelect();
+
+  }
+
+  searchItem(e) {
+    let value: string = e.target.innerText;
+    if (value) {
+      this.copyData = this.data.filter((e) => e.label.toLocaleLowerCase().includes(value.trim().toLocaleLowerCase()));
+      this.toggleClass = true;
+    } else this.assignData();
+  }
+
+  navigateList($event: KeyboardEvent) {
+
+    const ARROWS = ['ArrowUp', 'ArrowDown'];
+
+    let key = ARROWS.find(e => $event.code === e);
+
+    let collection: HTMLCollection = this.selegoList.nativeElement.children;
+
+    for(let item in collection) {
+      //console.log(collection.item(Number(item)));;
     }
 
-    if(this.itemsSelects.size === 1){
-      this.searchSelect = this.itemsSelects.values().next().value;
+    if(key) {
+      
     }
+    
+  }
 
-    console.log(this.itemsSelects.size);
-    
-    if(this.itemsSelects.size === 0) {
-      this.searchSelect = {};
-    }
-    
+  /** 
+   * Al quedar el último item lo salva.
+  */
+  assignLastValue() {
+    if (this.itemsSelects.size === 1) this.searchSelect = this.itemsSelects.values().next().value;
+  }
+
+  resetSearchSelect() {
+    if (this.itemsSelects.size === 0) this.searchSelect = {};
   }
 
   toggle() {
     this.toggleClass = !this.toggleClass;
   }
 
-  assingData() {
+  assignData() {
     this.copyData = this.data.map(e => Object.assign({ checked: false }, e));
   }
 
