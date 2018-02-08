@@ -13,13 +13,9 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    cursor:pointer;
 }
-.selego__searchBox {
-    width: 100%;
-    outline: 0 none;
-    padding: 5px;
-    cursor: text;
-}
+
 .selego__boxItemSelect {
     display: flex;
     flex-direction: row;
@@ -27,12 +23,12 @@
     width: 100%;
 }
 
-.selego__boxItemSelect input {
-    width: 90%;
+.selego__searchBox input {
+    width: 100%;
     border: 0px transparent;
-    outline: none;
     height: 100%;
-    font-size: 1.1em;
+    font-size: 1.2em;
+    padding: 8px 2px;
 }
 
 .selego__itemSelect {
@@ -84,8 +80,30 @@
     transform: rotate(-40deg);
     bottom: 40%;
 }
+
 .selego__contentList {
-    max-height: 0px;
+    display: block;
+    height: 0;
+    overflow: hidden;
+    position: absolute;
+    width: 100%;
+}
+
+.selego__list {
+    padding: 10px;
+    background: #F5F5F5;
+    border-bottom: .5px solid #E0E0E0;
+    display: flex;
+    align-items: center;
+}
+
+.selego__listItem {
+    height: 200px;
+    width: 100%;
+    overflow: scroll;
+}
+
+/* .selego__listItem {
     width: 100%;
     overflow: scroll;
     position: absolute;
@@ -97,7 +115,7 @@
     border-bottom: .5px solid #E0E0E0;
     display: flex;
     align-items: center;
-}
+} */
 
 .selego__icon img{
     width: 30px;
@@ -105,7 +123,8 @@
 }
 
 .toggle {
-    max-height: 200px;
+    height: 100%;
+    overflow: visible !important;
 }
 
 .active {

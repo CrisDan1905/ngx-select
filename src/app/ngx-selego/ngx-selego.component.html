@@ -5,7 +5,7 @@
 </select> -->
 
 <div class="selego">
-  <div class="selego__search">
+  <div class="selego__search" (click)="toggle($event)">
     
     <div *ngIf="!selectMult && searchSelect.icon" class="selego__icon">
       <img [src]="searchSelect.icon" alt="">
@@ -20,28 +20,34 @@
       </span>
 
       <span class="selego__searchBox">
-          <input type="text" [(ngModel)]="selegoSearchBoxValue" #selegoSearchBox (input)="searchItem($event)" placeholder="Seleccionar" />
+          {{ searchSelect.label ? searchSelect.label : 'Seleccionar' }}
       </span>
 
     </div>
-    <div class="selego__searchToggle" (click)="toggle($event); "></div>
+    <div class="selego__searchToggle"></div>
   </div>
 
-  <div class="selego__contentList" #selegoList id="listI" [ngClass]="{'toggle': toggleClass}">
-    
-    <div [class]="copyDataAux[indexList] === register ? 'active selego__list' : 'selego__list'" 
-         *ngFor="let register of copyDataAux; let i = index" 
-         (click)="selectItem($event, i)">
+  <div class="selego__contentList" [ngClass]="{'toggle': toggleClass}">
+      <div class="selego__searchBox">
+          <input type="text" [(ngModel)]="selegoSearchBoxValue" #selegoSearchBox (input)="searchItem($event)" />
+      </div>
 
-      <div *ngIf="selectMult">
-        <input type="checkbox" [checked]="register.checked ? true : false" (click)="checkedItem($event, register);">
+      <div class="selego__listItem" #selegoList id="listI">
+        <div [class]="copyDataAux[indexList] === register ? 'active selego__list' : 'selego__list'" 
+              *ngFor="let register of copyDataAux; let i = index" 
+              (click)="selectItem($event, i)">
+    
+          <div *ngIf="selectMult">
+            <input type="checkbox" [checked]="register.checked ? true : false" (click)="checkedItem($event, register);">
+          </div>
+          <div *ngIf="register.icon" class="selego__icon">
+            <img [src]="register.icon" alt="">
+          </div>
+          <div>{{ register.label }}</div>
+          
+        </div>
       </div>
-      <div *ngIf="register.icon" class="selego__icon">
-        <img [src]="register.icon" alt="">
-      </div>
-      <div>{{ register.label }}</div>
-      
-    </div>
+
   </div>
 
 </div>

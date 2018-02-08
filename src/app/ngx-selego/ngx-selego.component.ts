@@ -23,7 +23,7 @@ export class NgxSelegoComponent implements OnInit, AfterViewInit, ControlValueAc
     { id: '4', label: 'Danilo Gutierrez', icon: 'https://image.flaticon.com/icons/png/128/321/321828.png' },
     { id: '5', label: 'Juan Cardona' },
     { id: '6', label: 'Henry Cano' },
-    { id: '7', label: 'Nelson Usuga', icon: 'https://icon-icons.com/icons2/614/PNG/128/auricular-phone-symbol-in-a-circle_icon-icons.com_56570.png' },
+    { id: '7', label: 'Nelson Usuga', icon: 'https://antisystemic.org/jpg/icons/sc.ico' },
     { id: '8', label: 'Jimmy Romero' },
     { id: '9', label: 'Enrique Mejía', icon: 'http://icons.veryicon.com/ico/Game/Angry%20Birds%201/angry%20bird%20black.ico' },
     { id: '10', label: 'Eliana Londoño', icon: 'http://icons.veryicon.com/ico/Application/Bubble%20Circle%20Pack%20%232/Message.ico' },
