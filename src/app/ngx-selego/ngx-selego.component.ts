@@ -88,10 +88,6 @@ export class NgxSelegoComponent implements OnInit, AfterViewInit, ControlValueAc
 
     this.renderer.listen(SELEGO_BOX, 'blur', (e: KeyboardEvent) => {
 
-      if(!this.selegoSearchBoxValue) {
-        this.toggleClass = false;
-      }
-
     });
 
   }
@@ -174,11 +170,17 @@ export class NgxSelegoComponent implements OnInit, AfterViewInit, ControlValueAc
     } else {
       this.indexList = 0;
       this.assignData();
-      this.resetSearchSelect();
     }
+
+    if (Object.keys(this.searchSelect).length) {
+      this.indexList = 0;
+    }
+
+    this.resetSearchSelect();
   }
 
   navigateList($event: KeyboardEvent) {
+
     $event.preventDefault();
     
     if ($event.code === 'ArrowDown') this.next();
@@ -210,6 +212,11 @@ export class NgxSelegoComponent implements OnInit, AfterViewInit, ControlValueAc
   }
 
   toggle($event: KeyboardEvent) {
+
+    if (!Object.keys(this.searchSelect).length) {
+      this.copyDataAux = this.copyData;
+    }
+
     this.navigateList($event);
     this.selegoSearchBox.nativeElement.focus();
     this.toggleClass = !this.toggleClass;
