@@ -64,7 +64,7 @@ export class NgxSelegoComponent implements OnInit, AfterViewInit, ControlValueAc
 
   ngAfterViewInit() {
     const SELEGO_BOX = this.selegoSearchBox.nativeElement;
-    this.renderer.listen(document, 'keydown', (e: KeyboardEvent) => {
+    this.renderer.listen(SELEGO_BOX, 'keydown', (e: KeyboardEvent) => {
       /** KeyCode === 27 es la tecla esc. Cierra la lista. */
       if (e.keyCode === 27) {
         this.toggleClass = false; 
@@ -78,7 +78,7 @@ export class NgxSelegoComponent implements OnInit, AfterViewInit, ControlValueAc
 
     });
     
-    this.renderer.listen(document, 'keyup', (e: KeyboardEvent) => {
+    this.renderer.listen(SELEGO_BOX, 'keyup', (e: KeyboardEvent) => {
       if (!e.metaKey && this.itemsSelects.size <= 1) this.selectMult = false;
     });
 
@@ -87,7 +87,13 @@ export class NgxSelegoComponent implements OnInit, AfterViewInit, ControlValueAc
     });
 
     this.renderer.listen(SELEGO_BOX, 'blur', (e: KeyboardEvent) => {
+      this.focusBox = false;
+      //this.toggleClass = false;
+    });
 
+    this.renderer.listen(SELEGO_BOX, 'blur', (e: KeyboardEvent) => {
+      this.focusBox = false;
+      this.toggleClass = false;
     });
 
   }
@@ -107,11 +113,9 @@ export class NgxSelegoComponent implements OnInit, AfterViewInit, ControlValueAc
     this.indexList = i;
 
     if (!this.selectMult) {
-      // this.valueChanged(register.id);
-      //this.toggle($event);
     }
-
     this.searchSelect = this.copyDataAux[i];
+    this.valueChanged(this.searchSelect.id);
 
     /** Se reestrablece el objeto anteriormente seleccionado */
     if (Object.keys(this.searchSelect).length) {
@@ -124,7 +128,7 @@ export class NgxSelegoComponent implements OnInit, AfterViewInit, ControlValueAc
     this.addItem(this.searchSelect);
     this.assignLastValue();
     this.toggleClass = false;
-    this.selegoSearchBox.nativeElement.blur();
+    this.blur();
     
   }
 
@@ -212,14 +216,20 @@ export class NgxSelegoComponent implements OnInit, AfterViewInit, ControlValueAc
   }
 
   toggle($event: KeyboardEvent) {
-
     if (!Object.keys(this.searchSelect).length) {
       this.copyDataAux = this.copyData;
     }
-
     this.navigateList($event);
-    this.selegoSearchBox.nativeElement.focus();
     this.toggleClass = !this.toggleClass;
+    this.toggleClass ? this.focus() : this.blur();
+  }
+
+  focus() {
+    this.selegoSearchBox.nativeElement.focus();
+  }
+
+  blur(){
+    this.selegoSearchBox.nativeElement.blur();
   }
 
   assignData() {

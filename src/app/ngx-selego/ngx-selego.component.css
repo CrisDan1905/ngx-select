@@ -2,18 +2,23 @@
     content: attr(placeholder);
     display: block;
 }
+* {
+    box-sizing: border-box;
+}
 .selego {
     width: 100%;
     position: relative;
     color: #777;
 }
 .selego__search {
-    width: 100%;
     height: 40px;
     display: flex;
     justify-content: space-between;
     align-items: center;
     cursor:pointer;
+    border: 1.5px solid #1091f1;
+    border-radius: 5px;
+    padding-left: 5px;
 }
 
 .selego__boxItemSelect {
@@ -21,6 +26,12 @@
     flex-direction: row;
     flex-wrap: wrap;
     width: 100%;
+    height: 100%;
+    line-height: 1.8;
+}
+
+.selego__searchBox {
+    padding: 4px;
 }
 
 .selego__searchBox input {
@@ -87,12 +98,15 @@
     overflow: hidden;
     position: absolute;
     width: 100%;
+    border-right: 0px solid #4d90f9;
+    border-radius: 5px;
+    border-left: 0px solid #4d90f9;
+    border-bottom: 0px solid #4d90f9;
+    background: #fff;
 }
 
 .selego__list {
     padding: 10px;
-    background: #F5F5F5;
-    border-bottom: .5px solid #E0E0E0;
     display: flex;
     align-items: center;
 }
@@ -118,15 +132,17 @@
 } */
 
 .selego__icon img{
-    width: 30px;
-    margin: 5px;
+    width: 1.5rem;
+    margin-right: 5px;
 }
 
 .toggle {
-    height: 100%;
+    height: auto;
     overflow: visible !important;
+    border-width: 1.5px;
 }
 
 .active {
-    background: rgb(104, 104, 104);
+    color: #fff;
+    background: #5897fb;
 }

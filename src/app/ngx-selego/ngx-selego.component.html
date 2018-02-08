@@ -27,15 +27,15 @@
     <div class="selego__searchToggle"></div>
   </div>
 
-  <div class="selego__contentList" [ngClass]="{'toggle': toggleClass}">
+  <div class="selego__contentList" [ngClass]="{'toggle': toggleClass }">
       <div class="selego__searchBox">
           <input type="text" [(ngModel)]="selegoSearchBoxValue" #selegoSearchBox (input)="searchItem($event)" />
       </div>
 
-      <div class="selego__listItem" #selegoList id="listI">
+      <div class="selego__listItem" #selegoList id="listI" >
         <div [class]="copyDataAux[indexList] === register ? 'active selego__list' : 'selego__list'" 
               *ngFor="let register of copyDataAux; let i = index" 
-              (click)="selectItem($event, i)">
+              (mousedown)="selectItem($event, i)">
     
           <div *ngIf="selectMult">
             <input type="checkbox" [checked]="register.checked ? true : false" (click)="checkedItem($event, register);">
