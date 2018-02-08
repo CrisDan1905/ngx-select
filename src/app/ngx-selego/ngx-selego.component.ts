@@ -1,6 +1,7 @@
-import { Component, OnInit, Input, AfterViewInit, Renderer2, ViewChild } from '@angular/core';
+import { Component, OnInit, Input, AfterViewInit, Renderer2, ViewChild, ViewChildren, ElementRef, QueryList } from '@angular/core';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 import { NgxSelego } from '../interfaces/ngx-selego.interface';
+import scrollIntoViewIfNeeded from 'scroll-into-view-if-needed'
 
 @Component({
   selector: 'ngx-selego',
@@ -37,14 +38,25 @@ export class NgxSelegoComponent implements OnInit, AfterViewInit, ControlValueAc
   private onChange: Function;
 
   private copyData: NgxSelego[] = [];
+  private copyDataAux: NgxSelego[] = [];
   private searchSelect: any = {};
   private toggleClass: boolean = false;
   private selectMult: boolean = false;
   private itemsSelects: Set<Object> = new Set();
+  private focusBox: boolean = false;
+
+  private indexList: number = 0;
+  private selegoSearchBoxValue: string;
+
+  
 
   @ViewChild('selegoSearchBox') selegoSearchBox;
   @ViewChild('selegoList') selegoList;
-  constructor(private renderer: Renderer2) { }
+  constructor(private renderer: Renderer2) {
+
+  }
+
+  @Input() multiple: boolean = false;
 
   ngOnInit() {
     this.assignData();
@@ -52,13 +64,17 @@ export class NgxSelegoComponent implements OnInit, AfterViewInit, ControlValueAc
 
   ngAfterViewInit() {
     const SELEGO_BOX = this.selegoSearchBox.nativeElement;
-
     this.renderer.listen(document, 'keydown', (e: KeyboardEvent) => {
       /** KeyCode === 27 es la tecla esc. Cierra la lista. */
-      if (e.keyCode === 27) this.toggleClass = false; 
-      if (e.metaKey && this.toggleClass) this.selectMult = true;
+      if (e.keyCode === 27) {
+        this.toggleClass = false; 
+        this.selegoSearchBoxValue = this.searchSelect.label;
+        this.selegoSearchBox.nativeElement.blur();
+      }
 
-      //this.navigateList(e);
+      if (e.metaKey && this.toggleClass && this.multiple) this.selectMult = true;
+      if (this.focusBox && (e.code === 'ArrowDown' || e.code === 'ArrowUp')) this.navigateList(e);
+      if (this.focusBox && e.code === 'Enter') this.selectEnterItem(e);
 
     });
     
@@ -67,8 +83,17 @@ export class NgxSelegoComponent implements OnInit, AfterViewInit, ControlValueAc
     });
 
     this.renderer.listen(SELEGO_BOX, 'focus', (e: KeyboardEvent) => {
-      /** FOCUS */
-    })
+      this.focusBox = true;
+    });
+
+    this.renderer.listen(SELEGO_BOX, 'blur', (e: KeyboardEvent) => {
+
+      if(!this.selegoSearchBoxValue) {
+        this.toggleClass = false;
+      }
+
+    });
+
   }
 
   addItem(item: object | NgxSelego) {
@@ -81,11 +106,16 @@ export class NgxSelegoComponent implements OnInit, AfterViewInit, ControlValueAc
     });
   }
 
-  selectItem($event, obj: NgxSelego) {
+  selectItem($event, i) {
+    $event.preventDefault();
+    this.indexList = i;
+
     if (!this.selectMult) {
       // this.valueChanged(register.id);
-      this.toggle();
+      //this.toggle($event);
     }
+
+    this.searchSelect = this.copyDataAux[i];
 
     /** Se reestrablece el objeto anteriormente seleccionado */
     if (Object.keys(this.searchSelect).length) {
@@ -93,10 +123,18 @@ export class NgxSelegoComponent implements OnInit, AfterViewInit, ControlValueAc
       this.deleteItem(this.searchSelect);
     }
 
-    obj.checked = !obj.checked;
+    this.searchSelect.checked = !this.searchSelect.checked;
 
-    this.addItem(obj);
-    this.searchSelect = obj;
+    this.addItem(this.searchSelect);
+    this.assignLastValue();
+    this.toggleClass = false;
+    this.selegoSearchBox.nativeElement.blur();
+    
+  }
+
+  selectEnterItem($event: KeyboardEvent){
+    $event.preventDefault();
+    this.selectItem($event, this.indexList);
   }
 
   removeItem($event, obj: NgxSelego) {
@@ -109,7 +147,6 @@ export class NgxSelegoComponent implements OnInit, AfterViewInit, ControlValueAc
 
     this.assignLastValue();
     this.resetSearchSelect();
-
   }
 
   checkedItem($event: any, obj: NgxSelego) {
@@ -119,37 +156,45 @@ export class NgxSelegoComponent implements OnInit, AfterViewInit, ControlValueAc
     this.addItem(obj);
 
     if (!obj.checked) this.deleteItem(obj);
-    if (!$event.metaKey && this.itemsSelects.size === 1) this.selectMult = false;
+    if (!$event.metaKey && this.itemsSelects.size === 1) {
+      this.selectMult = false;
+    }
+    
+    if(this.itemsSelects.size > 1) this.selegoSearchBoxValue = "";
+    else this.assignLastValue();
 
-    this.assignLastValue();
     this.resetSearchSelect();
-
   }
 
-  searchItem(e) {
-    let value: string = e.target.innerText;
-    if (value) {
-      this.copyData = this.data.filter((e) => e.label.toLocaleLowerCase().includes(value.trim().toLocaleLowerCase()));
+  searchItem($event) {
+    let value = this.selegoSearchBoxValue;
+    if (value.length) {
+      this.copyDataAux = this.copyData.filter((e) => e.label.toLocaleLowerCase().includes(value.trim().toLocaleLowerCase()));
       this.toggleClass = true;
-    } else this.assignData();
+    } else {
+      this.indexList = 0;
+      this.assignData();
+      this.resetSearchSelect();
+    }
   }
 
   navigateList($event: KeyboardEvent) {
-
-    const ARROWS = ['ArrowUp', 'ArrowDown'];
-
-    let key = ARROWS.find(e => $event.code === e);
-
-    let collection: HTMLCollection = this.selegoList.nativeElement.children;
-
-    for(let item in collection) {
-      //console.log(collection.item(Number(item)));;
-    }
-
-    if(key) {
-      
-    }
+    $event.preventDefault();
     
+    if ($event.code === 'ArrowDown') this.next();
+    else if ($event.code === 'ArrowUp') this.prev();
+
+    let active = this.selegoList.nativeElement.children.item(this.indexList);
+    scrollIntoViewIfNeeded(active,{centerIfNeeded: false, duration: 100});
+
+  }
+
+  next() {
+    (this.indexList < this.selegoList.nativeElement.children.length - 1) ? ++this.indexList : '';
+  }
+
+  prev() {
+    (this.indexList >= 1) ? --this.indexList : '';
   }
 
   /** 
@@ -157,18 +202,21 @@ export class NgxSelegoComponent implements OnInit, AfterViewInit, ControlValueAc
   */
   assignLastValue() {
     if (this.itemsSelects.size === 1) this.searchSelect = this.itemsSelects.values().next().value;
+    this.selegoSearchBoxValue = this.searchSelect.label;
   }
 
   resetSearchSelect() {
-    if (this.itemsSelects.size === 0) this.searchSelect = {};
+    this.searchSelect = {};
   }
 
-  toggle() {
+  toggle($event: KeyboardEvent) {
+    this.navigateList($event);
+    this.selegoSearchBox.nativeElement.focus();
     this.toggleClass = !this.toggleClass;
   }
 
   assignData() {
-    this.copyData = this.data.map(e => Object.assign({ checked: false }, e));
+    this.copyData = this.copyDataAux = this.data.map(e => Object.assign({ checked: false, match: true }, e));
   }
 
   writeValue(value: any) {
