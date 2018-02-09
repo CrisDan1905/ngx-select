@@ -16,7 +16,7 @@ export class AppComponent implements OnInit {
   }
   ngOnInit() {
     this.form = new FormGroup({
-      test: new FormControl('')
+      test: new FormControl('1')
     })
   }
 

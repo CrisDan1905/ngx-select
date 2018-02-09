@@ -1,18 +1,12 @@
-<!-- <input type="text" > -->
-<!-- <select name="" id="" [value]="value" (input)="valueChanged($event)">
-  <option *ngFor="let register of data" [value]="register.id">{{ register.label }}</option>
-
-</select> -->
-
 <div class="selego">
   <div class="selego__search" (click)="toggle($event)">
-    
+
     <div *ngIf="!selectMult && searchSelect.icon" class="selego__icon">
       <img [src]="searchSelect.icon" alt="">
     </div>
-    
+
     <div class="selego__boxItemSelect">
-      
+
       <span *ngIf="selectMult" class="selego__itemSelect">
         <span *ngFor="let itemSelect of itemsSelects">
           <span>{{ itemSelect.label }}</span><span class="selego__removeItem" (click)="removeItem($event, itemSelect)">x</span>
@@ -33,10 +27,10 @@
       </div>
 
       <div class="selego__listItem" #selegoList id="listI" >
-        <div [class]="copyDataAux[indexList] === register ? 'active selego__list' : 'selego__list'" 
-              *ngFor="let register of copyDataAux; let i = index" 
+        <div [class]="copyDataAux[indexList] === register ? 'active selego__list' : 'selego__list'"
+              *ngFor="let register of copyDataAux; let i = index"
               (mousedown)="selectItem($event, i)">
-    
+
           <div *ngIf="selectMult">
             <input type="checkbox" [checked]="register.checked ? true : false" (click)="checkedItem($event, register);">
           </div>
@@ -44,7 +38,7 @@
             <img [src]="register.icon" alt="">
           </div>
           <div>{{ register.label }}</div>
-          
+
         </div>
       </div>
 
