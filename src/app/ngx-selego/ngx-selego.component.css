@@ -92,7 +92,7 @@
 }
 
 .selego__listItem {
-    height: 200px;
+    max-height: 200px;
     width: 100%;
     overflow: scroll;
 }

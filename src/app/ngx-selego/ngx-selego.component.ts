@@ -49,14 +49,15 @@ export class NgxSelegoComponent implements OnInit, AfterViewInit, ControlValueAc
 
 
   private indexList: number = 0;
+  private indexSelect: number = 0;
   private selegoSearchBoxValue: string;
-
   
+  @ViewChild('selego') selego;
 
   @ViewChild('selegoSearchBox') selegoSearchBox;
   @ViewChild('selegoList') selegoList;
+  //@ViewChild('selegocontentList') selegoContentList;
   constructor(private renderer: Renderer2) {
-
   }
 
   @Input() multiple: boolean = false;
@@ -67,40 +68,42 @@ export class NgxSelegoComponent implements OnInit, AfterViewInit, ControlValueAc
 
   ngAfterViewInit() {
     const SELEGO_BOX = this.selegoSearchBox.nativeElement;
+
     this.renderer.listen(SELEGO_BOX, 'keydown', (e: KeyboardEvent) => {
       /** KeyCode === 27 es la tecla esc. Cierra la lista. */
       if (e.keyCode === 27) {
-        this.toggleClass = false; 
-        this.selegoSearchBoxValue = this.searchSelect.label;
-        this.selegoSearchBox.nativeElement.blur();
+        this.toggleClass = false;
+
+        this.assignLastValue();
       }
 
       if (e.metaKey && this.toggleClass && this.multiple) this.selectMult = true;
-      if (this.focusBox && (e.code === 'ArrowDown' || e.code === 'ArrowUp')) this.navigateList(e);
-      if (this.focusBox && e.code === 'Enter') this.selectEnterItem(e);
+      if (e.code === 'ArrowDown' || e.code === 'ArrowUp') this.navigateList(e);
+      if (e.code === 'Enter') this.selectEnterItem(e);
 
     });
     
     this.renderer.listen(SELEGO_BOX, 'keyup', (e: KeyboardEvent) => {
       if (!e.metaKey && this.itemsSelects.size <= 1) this.selectMult = false;
+      if(this.selegoSearchBoxValue !== this.searchSelect.label) this.resetSearchSelect();
     });
 
     this.renderer.listen(SELEGO_BOX, 'focus', (e: KeyboardEvent) => {
-      this.focusBox = true;
+      //this.focusBox = true;
     });
 
     this.renderer.listen(SELEGO_BOX, 'blur', (e: KeyboardEvent) => {
       if(!this.mouseover) {
-        this.focusBox = false;
+        //this.focusBox = false;
         this.toggleClass = false;
       }
     });
 
-    this.renderer.listen(this.selegoList.nativeElement, 'mouseover', (e: KeyboardEvent) => {
+    this.renderer.listen(this.selego.nativeElement, 'mouseover', (e: KeyboardEvent) => {
       this.mouseover = true;
     });
 
-    this.renderer.listen(this.selegoList.nativeElement, 'mouseout', (e: KeyboardEvent) => {
+    this.renderer.listen(this.selego.nativeElement, 'mouseout', (e: KeyboardEvent) => {
       this.mouseover = false;
     });
 
@@ -118,25 +121,22 @@ export class NgxSelegoComponent implements OnInit, AfterViewInit, ControlValueAc
 
   selectItem($event, i) {
     $event.preventDefault();
-    this.indexList = i;
+    this.indexSelect = i;
 
-    if (!this.selectMult) {
-    }
     this.searchSelect = this.copyDataAux[i];
     this.valueChanged(this.searchSelect.id);
 
     /** Se reestrablece el objeto anteriormente seleccionado */
-    if (Object.keys(this.searchSelect).length) {
+    /* if (Object.keys(this.searchSelect).length) {
       this.searchSelect.checked = !this.searchSelect.checked;
       this.deleteItem(this.searchSelect);
-    }
+    } */
 
     this.searchSelect.checked = !this.searchSelect.checked;
 
-    this.addItem(this.searchSelect);
+    //this.addItem(this.searchSelect);
     this.assignLastValue();
-    this.toggleClass = false;
-    this.blur();
+    this.toggle($event);
     
   }
 
@@ -183,12 +183,6 @@ export class NgxSelegoComponent implements OnInit, AfterViewInit, ControlValueAc
       this.indexList = 0;
       this.assignData();
     }
-
-    if (Object.keys(this.searchSelect).length) {
-      this.indexList = 0;
-    }
-
-    this.resetSearchSelect();
   }
 
   navigateList($event: KeyboardEvent) {
@@ -224,12 +218,18 @@ export class NgxSelegoComponent implements OnInit, AfterViewInit, ControlValueAc
   }
 
   toggle($event: KeyboardEvent) {
-    if (!Object.keys(this.searchSelect).length) {
+    $event.preventDefault();
+    if (!this.hasSelected()) {
+      this.indexList = 0;
       this.copyDataAux = this.copyData;
+      this.selegoSearchBoxValue = "";
+    } else {
+      this.indexList = this.indexSelect;
+      this.navigateList($event);
     }
-    this.navigateList($event);
+    /** Si es falso es porque está cerrado y pasará a verdadero y necesita focus */
+    if(!this.toggleClass) this.focus();
     this.toggleClass = !this.toggleClass;
-    this.toggleClass ? this.focus() : this.blur();
   }
 
   focus() {
@@ -242,6 +242,14 @@ export class NgxSelegoComponent implements OnInit, AfterViewInit, ControlValueAc
 
   assignData() {
     this.copyData = this.copyDataAux = this.data.map(e => Object.assign({ checked: false, match: true }, e));
+  }
+
+  hasSelected():boolean {
+    return Object.keys(this.searchSelect).length ? true : false;
+  }
+
+  getIndex (obj: NgxSelego) : number {
+    return this.copyData.findIndex(e => e.id === obj.id);
   }
 
   writeValue(value: any) {

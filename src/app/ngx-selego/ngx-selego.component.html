@@ -4,7 +4,7 @@
 
 </select> -->
 
-<div class="selego">
+<div class="selego" #selego>
   <div class="selego__search" (click)="toggle($event)">
     
     <div *ngIf="!selectMult && searchSelect.icon" class="selego__icon">
@@ -27,15 +27,15 @@
     <div class="selego__searchToggle"></div>
   </div>
 
-  <div class="selego__contentList" [ngClass]="{'toggle': toggleClass }">
+  <div class="selego__contentList" #selegocontentList [ngClass]="{'toggle': toggleClass }">
       <div class="selego__searchBox">
           <input type="text" [(ngModel)]="selegoSearchBoxValue" #selegoSearchBox (input)="searchItem($event)" />
       </div>
 
-      <div class="selego__listItem" #selegoList id="listI" >
+      <div class="selego__listItem" #selegoList >
         <div [class]="copyDataAux[indexList] === register ? 'active selego__list' : 'selego__list'" 
               *ngFor="let register of copyDataAux; let i = index" 
-              (mousedown)="selectItem($event, i)">
+              (click)="selectItem($event, i)">
     
           <div *ngIf="selectMult">
             <input type="checkbox" [checked]="register.checked ? true : false" (click)="checkedItem($event, register);">
