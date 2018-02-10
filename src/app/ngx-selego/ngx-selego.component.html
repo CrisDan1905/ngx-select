@@ -7,20 +7,20 @@
 <div class="selego" #selego>
   <div class="selego__search" (click)="toggle($event)">
     
-    <div *ngIf="!selectMult && searchSelect.icon" class="selego__icon">
-      <img [src]="searchSelect.icon" alt="">
+    <div *ngIf="!selectMult && searchSelect?.icon" class="selego__icon">
+      <img [src]="searchSelect?.icon" alt="">
     </div>
     
     <div class="selego__boxItemSelect">
       
-      <span *ngIf="selectMult" class="selego__itemSelect">
-        <span *ngFor="let itemSelect of itemsSelects">
-          <span>{{ itemSelect.label }}</span><span class="selego__removeItem" (click)="removeItem($event, itemSelect)">x</span>
+      <span *ngIf="selectMult" class="selego__items__selection">
+        <span *ngFor="let itemSelect of itemsSelects" class="selego__item">
+          <span class="selego__itemText">{{ itemSelect?.label }}</span><span class="selego__removeItem" (click)="removeItem($event, itemSelect)">x</span>
         </span>
       </span>
 
-      <span class="selego__searchBox">
-          {{ searchSelect.label ? searchSelect.label : 'Seleccionar' }}
+      <span class="selego__searchBox" *ngIf="!selectMult">
+          {{ searchSelect?.label ? searchSelect?.label : 'Seleccionar' }}
       </span>
 
     </div>
@@ -38,12 +38,12 @@
               (click)="selectItem($event, i)">
     
           <div *ngIf="selectMult">
-            <input type="checkbox" [checked]="register.checked ? true : false" (click)="checkedItem($event, register);">
+            <input type="checkbox" [checked]="register.checked ? true : false" (click)="checkedItem($event, i);">
           </div>
-          <div *ngIf="register.icon" class="selego__icon">
-            <img [src]="register.icon" alt="">
+          <div *ngIf="register?.icon" class="selego__icon">
+            <img [src]="register?.icon" alt="">
           </div>
-          <div>{{ register.label }}</div>
+          <div>{{ register?.label }}</div>
           
         </div>
       </div>

@@ -11,12 +11,12 @@
     color: #777;
 }
 .selego__search {
-    height: 40px;
+    min-height: 40px;
     display: flex;
     justify-content: space-between;
     align-items: center;
     cursor:pointer;
-    border: 1.5px solid #1091f1;
+    border: 1.3px solid #1091f1;
     border-radius: 5px;
     padding-left: 5px;
 }
@@ -42,24 +42,42 @@
     padding: 8px 2px;
 }
 
-.selego__itemSelect {
-    background: #bbbbbb;
+.selego__items__selection {
     padding: 2px 10px;
     border-radius: 4px;
     color: #000;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+}
+
+.selego__items__selection .selego__item {
+    width: 100px;
+    display: inline-flex;
+    align-items: center; 
+    justify-content: flex-start;
+    background: #1091f1;
+    padding: 1px 4px;
+    margin: 2px;
+    border-radius: 4px;
+    color: #fff;
+}
+
+.selego__items__selection .selego__itemText {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 75px;
 }
 
 .selego__removeItem {
-    width: 18px;
+    width: 20px;
     text-align: center;
     margin-left: 5px;
-    background: gray;
+    display: flex;
+    background: #fff;
     border-radius: 30px;
-    line-height: 1.2;
-    color: #fff;
+    line-height: 1.1;
+    color: #1091f1;
+    align-items: center;
+    justify-content: center;
 }
 
 .selego__searchToggle {
@@ -111,20 +129,6 @@
     overflow-x: hidden;
 }
 
-/* .selego__listItem {
-    width: 100%;
-    overflow: scroll;
-    position: absolute;
-    border: 1px solid transparent;
-}
-.selego__list {
-    padding: 10px;
-    background: #F5F5F5;
-    border-bottom: .5px solid #E0E0E0;
-    display: flex;
-    align-items: center;
-} */
-
 .selego__icon img{
     width: 1.5rem;
     margin-right: 5px;
@@ -133,7 +137,7 @@
 .toggle {
     height: auto;
     overflow: visible !important;
-    border-width: 1.5px;
+    border-width: 1.3px;
 }
 
 .active {
