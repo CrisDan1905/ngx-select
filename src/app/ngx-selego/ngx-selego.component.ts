@@ -71,8 +71,6 @@ export class NgxSelegoComponent implements OnInit, AfterViewInit, ControlValueAc
       /** KeyCode === 27 es la tecla esc. Cierra la lista. */
       if (e.keyCode === 27) {
         this.toggleClass = false;
-
-        this.assignLastValue();
       }
 
       if (e.metaKey && this.toggleClass && this.multiple) this.selectMult = true;
@@ -104,12 +102,6 @@ export class NgxSelegoComponent implements OnInit, AfterViewInit, ControlValueAc
 
   addItem(item: object | NgxSelego) {
     this.itemsSelects.add(item);
-  }
-
-  deleteItem(item: NgxSelego) {
-    this.itemsSelects.forEach((e: NgxSelego) => {
-      if (e.id === item.id) this.itemsSelects.delete(item);
-    });
   }
 
   selectItem($event, i) {
@@ -148,6 +140,13 @@ export class NgxSelegoComponent implements OnInit, AfterViewInit, ControlValueAc
 
     this.assignLastValue();
     this.resetSearchSelect();
+  }
+
+  /** Remueve un item de la lista de seleccionados */
+  deleteItem(item: NgxSelego) {
+    this.itemsSelects.forEach((e: NgxSelego) => {
+      if (e.id === item.id) this.itemsSelects.delete(item);
+    });
   }
 
   checkedItem($event: any, obj: NgxSelego) {
