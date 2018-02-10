@@ -1,5 +1,10 @@
 NgxSelect
 
+@Inputs
+
+- multiple: boolean
+    Para seleccionar multiples opciones
+
 Contributors:
 <a href="https://github.com/betoobernal">@betoobernal</a>
 <a href="https://github.com/henryzarza">@henryzarza</a>
