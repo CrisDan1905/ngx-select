@@ -44,9 +44,7 @@ export class NgxSelegoComponent implements OnInit, AfterViewInit, ControlValueAc
   private selectMult: boolean = false;
   private itemsSelects: Set<Object> = new Set();
   
-  private focusBox: boolean = false;
   private mouseover: boolean = false;
-
 
   private indexList: number = 0;
   private indexSelect: number = 0;
@@ -56,7 +54,7 @@ export class NgxSelegoComponent implements OnInit, AfterViewInit, ControlValueAc
 
   @ViewChild('selegoSearchBox') selegoSearchBox;
   @ViewChild('selegoList') selegoList;
-  //@ViewChild('selegocontentList') selegoContentList;
+  
   constructor(private renderer: Renderer2) {
   }
 
@@ -88,13 +86,8 @@ export class NgxSelegoComponent implements OnInit, AfterViewInit, ControlValueAc
       if(this.selegoSearchBoxValue !== this.searchSelect.label) this.resetSearchSelect();
     });
 
-    this.renderer.listen(SELEGO_BOX, 'focus', (e: KeyboardEvent) => {
-      //this.focusBox = true;
-    });
-
     this.renderer.listen(SELEGO_BOX, 'blur', (e: KeyboardEvent) => {
       if(!this.mouseover) {
-        //this.focusBox = false;
         this.toggleClass = false;
       }
     });
