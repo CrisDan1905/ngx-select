@@ -85,6 +85,19 @@
     background: #fff;
 }
 
+.selego__listItem::-webkit-scrollbar {
+    width: 1em;
+}
+ 
+.selego__listItem::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+}
+ 
+.selego__listItem::-webkit-scrollbar-thumb {
+  background-color: darkgrey;
+  outline: 1px solid slategrey;
+}
+
 .selego__list {
     padding: 10px;
     display: flex;
@@ -94,7 +107,8 @@
 .selego__listItem {
     max-height: 200px;
     width: 100%;
-    overflow: scroll;
+    overflow-y: scroll;
+    overflow-x: hidden;
 }
 
 /* .selego__listItem {
