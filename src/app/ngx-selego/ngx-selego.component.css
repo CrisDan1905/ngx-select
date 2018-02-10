@@ -63,33 +63,13 @@
 }
 
 .selego__searchToggle {
-    height: 100%;
-    width: 20px;
+    border-color: transparent transparent #888;
+    border-width: 0 5px 8px;
+    border-style: solid;
+    height: auto;
+    margin: 0 6px;
     position: relative;
     cursor: pointer;
-}
-.selego__searchToggle::before {
-    content: '';
-    background: rgb(199, 199, 199);
-    height: 15px;
-    width: 3px;
-    border-radius: 10px;
-    transform-origin: bottom center;
-    position: absolute;
-    transform: rotate(40deg);
-    bottom: 40%;
-}
-.selego__searchToggle::after {
-    content: '';
-    background: rgb(199, 199, 199);
-    height: 15px;
-    width: 3px;
-    border-radius: 10px;
-    transform-origin: bottom center;
-    position: absolute;
-    left: 2px;
-    transform: rotate(-40deg);
-    bottom: 40%;
 }
 
 .selego__contentList {

@@ -43,7 +43,10 @@ export class NgxSelegoComponent implements OnInit, AfterViewInit, ControlValueAc
   private toggleClass: boolean = false;
   private selectMult: boolean = false;
   private itemsSelects: Set<Object> = new Set();
+  
   private focusBox: boolean = false;
+  private mouseover: boolean = false;
+
 
   private indexList: number = 0;
   private selegoSearchBoxValue: string;
@@ -87,13 +90,18 @@ export class NgxSelegoComponent implements OnInit, AfterViewInit, ControlValueAc
     });
 
     this.renderer.listen(SELEGO_BOX, 'blur', (e: KeyboardEvent) => {
-      this.focusBox = false;
-      //this.toggleClass = false;
+      if(!this.mouseover) {
+        this.focusBox = false;
+        this.toggleClass = false;
+      }
     });
 
-    this.renderer.listen(SELEGO_BOX, 'blur', (e: KeyboardEvent) => {
-      this.focusBox = false;
-      this.toggleClass = false;
+    this.renderer.listen(this.selegoList.nativeElement, 'mouseover', (e: KeyboardEvent) => {
+      this.mouseover = true;
+    });
+
+    this.renderer.listen(this.selegoList.nativeElement, 'mouseout', (e: KeyboardEvent) => {
+      this.mouseover = false;
     });
 
   }
