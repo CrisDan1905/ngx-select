@@ -106,6 +106,7 @@
     border-left: 0px solid #4d90f9;
     border-bottom: 0px solid #4d90f9;
     background: #fff;
+    cursor: pointer;
 }
 
 .selego__listItem::-webkit-scrollbar {

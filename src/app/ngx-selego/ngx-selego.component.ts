@@ -71,7 +71,7 @@ export class NgxSelegoComponent implements OnInit, AfterViewInit, ControlValueAc
       /** KeyCode === 27 es la tecla esc. Cierra la lista. */
       if (e.keyCode === 27) this.toggleClass = false;
 
-      if (e.metaKey && this.toggleClass && this.multiple) this.selectMult = true;
+      if ((e.metaKey || e.shiftKey) && this.toggleClass && this.multiple) this.selectMult = true;
 
       if (e.code === 'ArrowDown' || e.code === 'ArrowUp') this.navigateList(e);
       if (e.code === 'Enter') this.selectEnterItem(e);
@@ -79,7 +79,7 @@ export class NgxSelegoComponent implements OnInit, AfterViewInit, ControlValueAc
     });
 
     this.renderer.listen(SELEGO_BOX, 'keyup', (e: KeyboardEvent) => {
-      if (!e.metaKey && this.itemsSelects.size <= 1) this.selectMult = false;
+      if ((!e.metaKey || !e.shiftKey) && this.itemsSelects.size <= 1) this.selectMult = false;
     });
 
     this.renderer.listen(SELEGO_BOX, 'blur', (e: KeyboardEvent) => {
@@ -125,7 +125,7 @@ export class NgxSelegoComponent implements OnInit, AfterViewInit, ControlValueAc
 
     obj.checked = false;
     this.itemsSelects.delete(obj);
-    if (!$event.metaKey && this.itemsSelects.size === 1) {
+    if ((!$event.metaKey || !$event.shiftKey) && this.itemsSelects.size === 1) {
       this.selectMult = false;
       this.assignLastValue();
     }
@@ -148,7 +148,7 @@ export class NgxSelegoComponent implements OnInit, AfterViewInit, ControlValueAc
     this.addItem(obj);
 
     if (!obj.checked) this.deleteItem(obj);
-    if (!$event.metaKey && this.itemsSelects.size <= 1) {
+    if ((!$event.metaKey || !$event.shiftKey) && this.itemsSelects.size <= 1) {
       this.selectMult = false;
       this.assignLastValue();
     } else {
@@ -239,6 +239,9 @@ export class NgxSelegoComponent implements OnInit, AfterViewInit, ControlValueAc
   }
 
   getIndex(obj: NgxSelego): number {
+    if (!obj)
+      return;
+      
     return this.copyData.findIndex(e => +e.id === +obj.id);
   }
 
