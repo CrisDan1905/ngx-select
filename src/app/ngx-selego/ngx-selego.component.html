@@ -24,7 +24,7 @@
       </span>
 
     </div>
-    <div class="selego__searchToggle"></div>
+    <div class="selego__searchToggle" [ngClass]="{'selego__searchToggle--open': toggleClass }"></div>
   </div>
 
   <div class="selego__contentList" #selegocontentList [ngClass]="{'toggle': toggleClass }">
