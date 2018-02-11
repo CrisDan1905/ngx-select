@@ -35,7 +35,7 @@
       <div class="selego__listItem" #selegoList >
         <div [class]="copyDataAux[indexList] === register ? 'active selego__list' : 'selego__list'" 
               *ngFor="let register of copyDataAux; let i = index" 
-              (click)="selectItem($event, i)">
+              (click)="selectItem($event, i);">
     
           <div *ngIf="selectMult">
             <input type="checkbox" [checked]="register.checked ? true : false" (click)="checkedItem($event, i);">
