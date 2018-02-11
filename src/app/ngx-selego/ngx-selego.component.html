@@ -1,10 +1,3 @@
-<<<<<<< HEAD
-<div class="selego">
-  <div class="selego__search" (click)="toggle($event)">
-
-    <div *ngIf="!selectMult && searchSelect.icon" class="selego__icon">
-      <img [src]="searchSelect.icon" alt="">
-=======
 <!-- <input type="text" > -->
 <!-- <select name="" id="" [value]="value" (input)="valueChanged($event)">
   <option *ngFor="let register of data" [value]="register.id">{{ register.label }}</option>
@@ -16,21 +9,13 @@
     
     <div *ngIf="!selectMult && searchSelect?.icon" class="selego__icon">
       <img [src]="searchSelect?.icon" alt="">
->>>>>>> 6cb4ed00490e4cc871ca77652090293b862b02d4
     </div>
 
     <div class="selego__boxItemSelect">
-<<<<<<< HEAD
-
-      <span *ngIf="selectMult" class="selego__itemSelect">
-        <span *ngFor="let itemSelect of itemsSelects">
-          <span>{{ itemSelect.label }}</span><span class="selego__removeItem" (click)="removeItem($event, itemSelect)">x</span>
-=======
       
       <span *ngIf="selectMult" class="selego__items__selection">
         <span *ngFor="let itemSelect of itemsSelects" class="selego__item">
           <span class="selego__itemText">{{ itemSelect?.label }}</span><span class="selego__removeItem" (click)="removeItem($event, itemSelect)">x</span>
->>>>>>> 6cb4ed00490e4cc871ca77652090293b862b02d4
         </span>
       </span>
 
@@ -47,32 +32,19 @@
           <input type="text" [(ngModel)]="selegoSearchBoxValue" #selegoSearchBox (input)="searchItem($event)" />
       </div>
 
-<<<<<<< HEAD
-      <div class="selego__listItem" #selegoList id="listI" >
-        <div [class]="copyDataAux[indexList] === register ? 'active selego__list' : 'selego__list'"
-              *ngFor="let register of copyDataAux; let i = index"
-              (mousedown)="selectItem($event, i)">
-
-=======
       <div class="selego__listItem" #selegoList >
         <div [class]="copyDataAux[indexList] === register ? 'active selego__list' : 'selego__list'" 
               *ngFor="let register of copyDataAux; let i = index" 
               (click)="selectItem($event, i)">
     
->>>>>>> 6cb4ed00490e4cc871ca77652090293b862b02d4
           <div *ngIf="selectMult">
             <input type="checkbox" [checked]="register.checked ? true : false" (click)="checkedItem($event, i);">
           </div>
           <div *ngIf="register?.icon" class="selego__icon">
             <img [src]="register?.icon" alt="">
           </div>
-<<<<<<< HEAD
-          <div>{{ register.label }}</div>
-
-=======
           <div>{{ register?.label }}</div>
           
->>>>>>> 6cb4ed00490e4cc871ca77652090293b862b02d4
         </div>
       </div>
 
