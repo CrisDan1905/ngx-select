@@ -103,14 +103,13 @@ export class NgxSelegoComponent implements OnInit, AfterViewInit, ControlValueAc
   }
 
   selectItem($event, i) {
-    if(this.selectMult) return;
     $event.preventDefault();
-    
+
     this.searchSelect = JSON.parse(JSON.stringify(this.copyDataAux[i]));
     this.searchSelect.checked = true;
 
     this.itemsSelects.clear()
-    
+
     this.valueChanged(this.searchSelect.id);
     this.toggle($event);
 
@@ -149,7 +148,7 @@ export class NgxSelegoComponent implements OnInit, AfterViewInit, ControlValueAc
     this.addItem(obj);
 
     if (!obj.checked) this.deleteItem(obj);
-    if ((!$event.metaKey && !$event.shiftKey) && this.itemsSelects.size <= 1) {
+    if ((!$event.metaKey || !$event.shiftKey) && this.itemsSelects.size <= 1) {
       this.selectMult = false;
       this.assignLastValue();
     } else {
@@ -193,7 +192,7 @@ export class NgxSelegoComponent implements OnInit, AfterViewInit, ControlValueAc
     (this.indexList >= 1) ? --this.indexList : '';
   }
 
-  /** 
+  /**
    * Al quedar el último item lo salva.
   */
   assignLastValue() {
@@ -218,7 +217,7 @@ export class NgxSelegoComponent implements OnInit, AfterViewInit, ControlValueAc
       this.selegoSearchBoxValue = "";
       let ind = this.getIndex(this.searchSelect);
       this.indexSelect = this.indexList = (ind === -1) ? 0 : ind;
-      this.blur() 
+      this.blur()
     }
     this.toggleClass = !this.toggleClass;
   }
@@ -242,7 +241,7 @@ export class NgxSelegoComponent implements OnInit, AfterViewInit, ControlValueAc
   getIndex(obj: NgxSelego): number {
     if (!obj)
       return;
-      
+
     return this.copyData.findIndex(e => +e.id === +obj.id);
   }
 
