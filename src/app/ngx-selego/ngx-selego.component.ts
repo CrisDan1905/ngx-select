@@ -148,7 +148,7 @@ export class NgxSelegoComponent implements OnInit, AfterViewInit, ControlValueAc
     this.addItem(obj);
 
     if (!obj.checked) this.deleteItem(obj);
-    if ((!$event.metaKey || !$event.shiftKey) && this.itemsSelects.size <= 1) {
+    if ((!$event.metaKey && !$event.shiftKey) && this.itemsSelects.size <= 1) {
       this.selectMult = false;
       this.assignLastValue();
     } else {
