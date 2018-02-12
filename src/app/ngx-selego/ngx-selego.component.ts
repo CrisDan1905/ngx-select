@@ -161,15 +161,9 @@ export class NgxSelegoComponent implements OnInit, AfterViewInit, ControlValueAc
 
   searchItem($event) {
     let value = this.selegoSearchBoxValue;
-
-    if (value.length) {
-      this.copyDataAux = this.copyData.filter((e) => e.label.toLocaleLowerCase().includes(value.trim().toLocaleLowerCase()));
-    } else {
-      this.resetSearchSelect();
-    }
-
+    this.copyDataAux = this.copyData.filter((e) => e.label.toLocaleLowerCase().includes(value.trim().toLocaleLowerCase()));
+    this.resetSearchSelect();
     this.indexList = 0;
-
   }
 
   navigateList($event: KeyboardEvent) {
