@@ -104,6 +104,7 @@ export class NgxSelegoComponent implements OnInit, AfterViewInit, ControlValueAc
 
   selectItem($event, i) {
     if(this.selectMult) return;
+    
     $event.preventDefault();
     
     this.searchSelect = JSON.parse(JSON.stringify(this.copyDataAux[i]));
