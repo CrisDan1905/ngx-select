@@ -6,13 +6,13 @@
 
 <div class="selego" #selego>
   <div class="selego__search" (click)="toggle($event)">
-    
+
     <div *ngIf="!selectMult && searchSelect?.icon" class="selego__icon">
       <img [src]="searchSelect?.icon" alt="">
     </div>
 
     <div class="selego__boxItemSelect">
-      
+
       <span *ngIf="selectMult" class="selego__items__selection">
         <span *ngFor="let itemSelect of itemsSelects" class="selego__item">
           <span class="selego__itemText">{{ itemSelect?.label }}</span><span class="selego__removeItem" (click)="removeItem($event, itemSelect)">x</span>
@@ -33,10 +33,11 @@
       </div>
 
       <div class="selego__listItem" #selegoList >
-        <div [class]="copyDataAux[indexList] === register ? 'active selego__list' : 'selego__list'" 
-              *ngFor="let register of copyDataAux; let i = index" 
+        <div [class]="'selego__list'"
+              [ngClass]="{'checked': register.checked, 'active': copyDataAux[indexList] === register}"
+              *ngFor="let register of copyDataAux; let i = index"
               (click)="selectItem($event, i);">
-    
+
           <div *ngIf="selectMult">
             <input type="checkbox" [checked]="register.checked ? true : false" (click)="checkedItem($event, i);">
           </div>
@@ -44,7 +45,7 @@
             <img [src]="register?.icon" alt="">
           </div>
           <div>{{ register?.label }}</div>
-          
+
         </div>
       </div>
 
