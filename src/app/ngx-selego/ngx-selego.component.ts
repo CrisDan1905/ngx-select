@@ -16,7 +16,7 @@ import scrollIntoViewIfNeeded from 'scroll-into-view-if-needed'
 
 export class NgxSelegoComponent implements OnInit, AfterViewInit, ControlValueAccessor {
 
-  @Input() data: NgxSelego[] = [];
+  @Input() data: NgxSelego[] = [{id:0, label: ''}];
 
   private value: any;
   private onChange: Function;
@@ -188,6 +188,7 @@ export class NgxSelegoComponent implements OnInit, AfterViewInit, ControlValueAc
   toggle($event: KeyboardEvent) {
     $event.preventDefault();
     /** Si es falso es porque está cerrado y pasará a verdadero y necesita focus */
+    
     if (!this.toggleClass) {
       this.focus();
       this.navigateList($event);
