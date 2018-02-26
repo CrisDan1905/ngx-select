@@ -1,6 +1,6 @@
 {
   "name": "ngx-selego",
-  "version": "0.5.1-beta.2",
+  "version": "0.5.3-beta.2",
   "license": "MIT",
   "scripts": {
     "ng": "ng",

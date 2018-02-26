@@ -33,7 +33,7 @@ export class AppComponent implements OnInit {
   }
   ngOnInit() {
     this.form = new FormGroup({
-      test: new FormControl('1')
+      test: new FormControl(null)
     })
   }
 

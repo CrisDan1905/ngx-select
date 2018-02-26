@@ -230,6 +230,9 @@ export class NgxSelegoComponent implements OnInit, AfterViewInit, ControlValueAc
   }
 
   writeValue(value: any) {
+    if (!value)
+      return;
+
     this.searchSelect = JSON.parse(
       JSON.stringify(
         this.copyDataAux.find(register => register['id'].toString() === value.toString())
