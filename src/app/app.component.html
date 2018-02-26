@@ -1,6 +1,6 @@
 <div class="contentForm">
   <form [formGroup]="form" (ngSubmit)="test()" class="form">
-    <ngx-selego formControlName="test" (ngModelChange)="test($event)" [multiple]="true" ></ngx-selego>
+    <ngx-selego formControlName="test" (ngModelChange)="test($event)" [multiple]="true" [data]="data"></ngx-selego>
     <button type="submit">Enviar</button>
   </form>
 </div>

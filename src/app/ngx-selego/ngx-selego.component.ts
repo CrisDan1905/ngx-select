@@ -18,7 +18,6 @@ export class NgxSelegoComponent implements OnInit, AfterViewInit, ControlValueAc
 
   @Input() data: NgxSelego[] = [{id:0, label: ''}];
 
-  private value: any;
   private onChange: Function;
 
   private copyData: NgxSelego[] = [];
@@ -188,7 +187,7 @@ export class NgxSelegoComponent implements OnInit, AfterViewInit, ControlValueAc
   toggle($event: KeyboardEvent) {
     $event.preventDefault();
     /** Si es falso es porque está cerrado y pasará a verdadero y necesita focus */
-    
+
     if (!this.toggleClass) {
       this.focus();
       this.navigateList($event);
@@ -231,7 +230,11 @@ export class NgxSelegoComponent implements OnInit, AfterViewInit, ControlValueAc
   }
 
   writeValue(value: any) {
-    this.value = value;
+    this.searchSelect = JSON.parse(
+      JSON.stringify(
+        this.copyDataAux.find(register => register['id'].toString() === value.toString())
+      )
+    );
   }
 
   registerOnChange(fn) { this.onChange = fn; }

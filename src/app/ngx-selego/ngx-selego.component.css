@@ -9,6 +9,7 @@
     width: 100%;
     position: relative;
     color: #777;
+    z-index: 1;
 }
 .selego__search {
     min-height: 40px;
