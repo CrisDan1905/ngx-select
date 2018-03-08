@@ -1,4 +1,7 @@
-NgxSelect
+NgxSelego
+
+A select with super powers for Angular apps
+
 
 Contributors:
 <a href="https://github.com/betoobernal">@betoobernal</a>
